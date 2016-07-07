@@ -16,12 +16,21 @@
 
 namespace cfd {
 
-typedef double cfd_float;
+struct CFD {
+	enum {
+		Rho, Momentum, Energy, Size
+	};
 
-/**
- * Ratio of specific heats
- */
-const cfd_float Gamma = 1.4;
+	/**
+	 * Ratio of specific heats.
+	 */
+	const double Gamma = 1.4;
+
+	/**
+	 * Gas constant.
+	 */
+	const double GasConstant = 287.3;
+};
 
 }  // namespace cfd
 
