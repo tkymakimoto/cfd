@@ -12,7 +12,7 @@
 
 namespace cfd {
 
-typedef Eigen::Vector3d Quantity;
+typedef Eigen::RowVector3d Quantity;
 
 }  // namespace cfd
 
