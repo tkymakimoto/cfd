@@ -24,12 +24,12 @@ struct CFD {
 	/**
 	 * Ratio of specific heats.
 	 */
-	const double Gamma = 1.4;
+	static const double Gamma = 1.4;
 
 	/**
 	 * Gas constant.
 	 */
-	const double GasConstant = 287.3;
+	static const double GasConstant = 287.3;
 };
 
 }  // namespace cfd
