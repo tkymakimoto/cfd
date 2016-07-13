@@ -16,7 +16,7 @@
 
 int main(int argc, char** argv) {
 
-	const std::size_t N = 1000;
+	const std::size_t N = 101;
 	typedef std::vector<cfd::Quantity> QVector;
 	QVector Q(N);
 
@@ -30,14 +30,14 @@ int main(int argc, char** argv) {
 
 	cfd::flux F;
 
-	const double dt = 0.1;
+	const double dt = 0.002;
 
 	cfd::Quantity dQ;
+	std::size_t i = 0;
 	do {
-		std::cout << "\n\n";
 		dQ = cfd::Quantity::Zero();
-		std::vector<cfd::Quantity> newQ(Q.size(), Q.back());
-		for (std::size_t i = 0; i < Q.size() - 1; ++i) {
+		std::vector<cfd::Quantity> newQ(Q.begin(), Q.end());
+		for (std::size_t i = 1; i < Q.size() - 1; ++i) {
 			const Eigen::RowVector3d Er = 0.5
 					* (F(Q[i]) + F(Q[i + 1]) - (Q[i + 1] - Q[i]) / dt);
 			const Eigen::RowVector3d El = 0.5
@@ -45,10 +45,12 @@ int main(int argc, char** argv) {
 			newQ[i] = Q[i] - dt * (Er - El);
 			dQ += newQ[i] - Q[i];
 		}
+		newQ[0] = newQ[1];
+		newQ[newQ.size() - 1] = newQ[newQ.size() - 2];
 
 		std::copy(newQ.begin(), newQ.end(), Q.begin());
-
-	} while (dQ.norm() >= 1.0E-7);
+		++i;
+	} while (/*dQ.norm() >= 1.0E-7*/i < 100);
 
 	for (std::size_t i = 0; i < Q.size(); ++i) {
 		std::cout << i << " " << Q[i] << std::endl;
